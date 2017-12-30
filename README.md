@@ -48,3 +48,9 @@ convert.py:
   instead of pixel-wise means.
 
 
+
+## Modify Notes
+
+* Original branch just support Python2 and Tensorflow 0.12 or other
+* Modify files for Python 3 and tensorflow 1.0 and lastest
+
