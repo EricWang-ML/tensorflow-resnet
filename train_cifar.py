@@ -22,7 +22,7 @@ import os
 import sys
 import tarfile
 
-from six.moves import xrange  # pylint: disable=redefined-builtin
+from six.moves import range  # pylint: disable=redefined-builtin
 from six.moves import urllib
 
 from resnet_train import train
@@ -32,7 +32,7 @@ import tensorflow as tf
 DATA_URL = 'http://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz'
 
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_string('data_dir', '/tmp/cifar-data',
+tf.app.flags.DEFINE_string('data_dir', 'cifar-data',
                            'where to store the dataset')
 tf.app.flags.DEFINE_boolean('use_bn', True, 'use batch normalization. otherwise use biases')
 
@@ -159,7 +159,7 @@ def distorted_inputs(data_dir, batch_size):
   """
     filenames = [
         os.path.join(data_dir, 'cifar-10-batches-bin', 'data_batch_%d.bin' % i)
-        for i in xrange(1, 6)
+        for i in range(1, 6)
     ]
 
     for f in filenames:
@@ -192,7 +192,7 @@ def distorted_inputs(data_dir, batch_size):
         distorted_image, lower=0.2, upper=1.8)
 
     # Subtract off the mean and divide by the variance of the pixels.
-    float_image = tf.image.per_image_whitening(distorted_image)
+    float_image = tf.image.per_image_standardization(distorted_image)
 
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4
@@ -224,7 +224,7 @@ def inputs(eval_data, data_dir, batch_size):
     if not eval_data:
         assert False, "hack. shouldn't go here"
         filenames = [os.path.join(data_dir, 'data_batch_%d.bin' % i)
-                     for i in xrange(1, 6)]
+                     for i in range(1, 6)]
         num_examples_per_epoch = NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN
     else:
         filenames = [os.path.join(data_dir, 'cifar-10-batches-bin', 'test_batch.bin')]
@@ -250,7 +250,7 @@ def inputs(eval_data, data_dir, batch_size):
                                                            width, height)
 
     # Subtract off the mean and divide by the variance of the pixels.
-    float_image = tf.image.per_image_whitening(resized_image)
+    float_image = tf.image.per_image_standardization(resized_image)
 
     # Ensure that the random shuffling has good mixing properties.
     min_fraction_of_examples_in_queue = 0.4

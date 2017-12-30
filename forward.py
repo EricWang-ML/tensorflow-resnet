@@ -16,7 +16,7 @@ images = graph.get_tensor_by_name("images:0")
 for op in graph.get_operations():
     print op.name
 
-#init = tf.initialize_all_variables()
+#init = tf.global_variables_initializer()
 #sess.run(init)
 print "graph restored"
 

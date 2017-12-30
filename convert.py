@@ -218,11 +218,11 @@ def parse_tf_varnames(p, tf_varname, num_layers):
 
 
 def checkpoint_fn(layers):
-    return 'ResNet-L%d.ckpt' % layers
+    return 'data/ResNet-L%d.ckpt' % layers
 
 
 def meta_fn(layers):
-    return 'ResNet-L%d.meta' % layers
+    return 'data/ResNet-L%d.meta' % layers
 
 
 def convert(graph, img, img_p, layers):
@@ -258,7 +258,7 @@ def convert(graph, img, img_p, layers):
     saver = tf.train.Saver(vars_to_restore)
 
     sess = tf.Session()
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.global_variables_initializer())
 
     assigns = []
     for var in vars_to_restore:
